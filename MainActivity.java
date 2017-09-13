@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import java.util.Arrays;
 
@@ -24,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
     //Field to hold result
     TextView showSet;
+
+    //Field to hold Ascending/Descending toggle button
+    ToggleButton order;
 
     //variables for bubbleSort
     int temp = 0;
@@ -49,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         editSet = (EditText) findViewById(R.id.editSet);
         sort = (Button) findViewById(R.id.sort);
         showSet = (TextView) findViewById(R.id.showSet);
+        order = (ToggleButton) findViewById(R.id.order);
     }
 
     //Function to retrieve the user input.
@@ -64,7 +69,14 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0; i < inputArray.length; i++) {
             intInputArray[i] = Integer.parseInt(inputArray[i]);
         }
-        ascendingBubbleSort(intInputArray);
+
+        if(order.isChecked()){
+            descendingBubbleSort(intInputArray);
+        }
+        else
+        {
+            ascendingBubbleSort(intInputArray);
+        }
     }
 
     //Function to sort the set in Ascending order
@@ -79,6 +91,34 @@ public class MainActivity extends AppCompatActivity {
                     a[i+1] = temp;
                 }
                 else if(a[i] < a[i+1])
+                {
+                    c++;
+                }
+            }
+            System.out.println(Arrays.toString(a));
+            if(c == (a.length -1))
+            {
+                x = a.length;
+            }
+            else
+            {
+                c = 0;
+            }
+        }
+        showSet.setText(Arrays.toString(a));
+    }
+    //Function to sort the set in Ascending order
+    public  void descendingBubbleSort(int[] a){
+        //Bubble sort method
+        for(int x = 0 ; x < a.length; x++){
+            for(int i = 0; i < (a.length)-1; i++){
+                if(a[i] < a[i+1])
+                {
+                    temp = a[i];
+                    a[i] = a[i+1];
+                    a[i+1] = temp;
+                }
+                else if(a[i] > a[i+1])
                 {
                     c++;
                 }
