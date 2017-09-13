@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         }
         showSet.setText(Arrays.toString(a));
     }
-    //Function to sort the set in Ascending order
+    //Function to sort the set in Descending order
     public  void descendingBubbleSort(int[] a){
         //Bubble sort method
         for(int x = 0 ; x < a.length; x++){
