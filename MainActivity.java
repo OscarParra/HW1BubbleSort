@@ -40,14 +40,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         //Link instances to widget in the activity view
         editSet = (EditText) findViewById(R.id.editSet);
@@ -81,59 +73,73 @@ public class MainActivity extends AppCompatActivity {
 
     //Function to sort the set in Ascending order
     public  void ascendingBubbleSort(int[] a){
+        //Original set
+        showSet.setText("Original Set: " + Arrays.toString(a) + "\n");
+
         //Bubble sort method
-        for(int x = 0 ; x < a.length; x++){
+        for(int x = 0 ; x < (a.length)-1; x++){
+            showSet.append("-------Pass " + (x+1) + " ------" + "\n");
             for(int i = 0; i < (a.length)-1; i++){
                 if(a[i] > a[i+1])
                 {
                     temp = a[i];
                     a[i] = a[i+1];
                     a[i+1] = temp;
+                    showSet.append("Swap : " + a[i+1] + " and " + a[i] + "\n");
+                    showSet.append(Arrays.toString(a) + "\n");
                 }
-                else if(a[i] < a[i+1])
+                else if(a[i] <= a[i+1])
                 {
                     c++;
                 }
             }
-            System.out.println(Arrays.toString(a));
             if(c == (a.length -1))
             {
                 x = a.length;
+                showSet.append("Set Sorted" + "\n");
             }
             else
             {
                 c = 0;
             }
         }
-        showSet.setText(Arrays.toString(a));
+        showSet.append("-----Sorted Set-----" + "\n");
+        showSet.append(Arrays.toString(a));
     }
     //Function to sort the set in Descending order
     public  void descendingBubbleSort(int[] a){
+        //Original set
+        showSet.setText("Original Set: " + Arrays.toString(a) + "\n");
+
         //Bubble sort method
-        for(int x = 0 ; x < a.length; x++){
+        for(int x = 0 ; x < (a.length)-1; x++){
+            showSet.append("-------Pass " + (x+1) + " ------" + "\n");
             for(int i = 0; i < (a.length)-1; i++){
                 if(a[i] < a[i+1])
                 {
                     temp = a[i];
                     a[i] = a[i+1];
                     a[i+1] = temp;
+                    showSet.append("Swap : " + a[i+1] + " and " + a[i] + "\n");
+                    showSet.append(Arrays.toString(a) + "\n");
                 }
-                else if(a[i] > a[i+1])
+                else if(a[i] >= a[i+1])
                 {
                     c++;
                 }
             }
-            System.out.println(Arrays.toString(a));
             if(c == (a.length -1))
             {
                 x = a.length;
+                showSet.append("Set Sorted" + "\n");
             }
             else
             {
                 c = 0;
             }
         }
-        showSet.setText(Arrays.toString(a));
+        showSet.append("-----Sorted Set-----" + "\n");
+        showSet.append(Arrays.toString(a));
     }
 
 
