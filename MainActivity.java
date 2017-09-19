@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     //variables for bubbleSort
     int temp = 0;
     int c = 0;
-    char comma= ',';
+    String comma = ",,";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +74,10 @@ public class MainActivity extends AppCompatActivity {
                 //Hold user input in a single string.
                 String userInput = editSet.getText().toString();
 
-                if(userInput.length()==0){
+                if(userInput.length() == 0 || userInput.length() < 2 || userInput.contains(comma)){
                     editSet.setError("Error: Please enter a valid set: Example:1,5,3,6,2,7,4");
-                }else{
+                }
+                else{
                     //Save user string into an array
                     String[] inputArray = userInput.split(",");
                     //Array to hold the integer values of the set.
