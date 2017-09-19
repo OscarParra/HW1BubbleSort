@@ -1,8 +1,10 @@
 package com.example.owner.hw1bubblesort;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.util.Arrays;
@@ -29,9 +32,22 @@ public class MainActivity extends AppCompatActivity {
     //Field to hold Ascending/Descending toggle button
     ToggleButton order;
 
+    //Field to hold Sorted Set
+    TextView showFinal;
+
+    //Field to hold the final set label
+    TextView finalSet;
+
+    //Field to hold the exit button
+    Button exit;
+
+    //Field to hold the clear button
+    Button clear;
+
     //variables for bubbleSort
     int temp = 0;
     int c = 0;
+    char comma= ',';
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,29 +62,69 @@ public class MainActivity extends AppCompatActivity {
         sort = (Button) findViewById(R.id.sort);
         showSet = (TextView) findViewById(R.id.showSet);
         order = (ToggleButton) findViewById(R.id.order);
-    }
+        showFinal = (TextView) findViewById(R.id.showFinal);
+        finalSet = (TextView) findViewById(R.id.finalSet);
+        clear = (Button) findViewById(R.id.clear);
+        exit = (Button) findViewById(R.id.exit);
 
-    //Function to retrieve the user input.
-    public void getInfo(View v){
-        //Hold user input in a single string.
-        String userInput = editSet.getText().toString();
-        //Save user string into an array
-        String[] inputArray = userInput.split("\\s*,\\s*");
-        //Array to hold the integer values of the set.
-        int[] intInputArray = new int[inputArray.length];
+        //Error message for an empty set.
+        sort.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Hold user input in a single string.
+                String userInput = editSet.getText().toString();
 
-        //For loop to convert the string set to an integer set for sorting.
-        for(int i = 0; i < inputArray.length; i++) {
-            intInputArray[i] = Integer.parseInt(inputArray[i]);
-        }
+                if(userInput.length()==0){
+                    editSet.setError("Error: Please enter a valid set: Example:1,5,3,6,2,7,4");
+                }else{
+                    //Save user string into an array
+                    String[] inputArray = userInput.split(",");
+                    //Array to hold the integer values of the set.
+                    int[] intInputArray = new int[inputArray.length];
 
-        if(order.isChecked()){
-            descendingBubbleSort(intInputArray);
-        }
-        else
-        {
-            ascendingBubbleSort(intInputArray);
-        }
+                    //For loop to convert the string set to an integer set for sorting.
+                    for(int i = 0; i < inputArray.length; i++) {
+                        intInputArray[i] = Integer.parseInt(inputArray[i]);
+                    }
+
+                    if(order.isChecked()){
+                        descendingBubbleSort(intInputArray);
+                    }
+                    else
+                    {
+                        ascendingBubbleSort(intInputArray);
+                    }
+                    finalSet.setVisibility(View.VISIBLE);
+                }
+            }
+        }));
+
+        clear.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                editSet.setText("");
+                showSet.setText("");
+                showFinal.setText("");
+                finalSet.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        exit.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setMessage("Are you sure you want to exit?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which){
+                        finish();
+                    }
+                });
+                builder.setNegativeButton("No", null);
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
     }
 
     //Function to sort the set in Ascending order
@@ -105,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
         }
         showSet.append("-----Sorted Set-----" + "\n");
         showSet.append(Arrays.toString(a));
+        showFinal.setText(Arrays.toString(a));
     }
     //Function to sort the set in Descending order
     public  void descendingBubbleSort(int[] a){
@@ -140,8 +197,8 @@ public class MainActivity extends AppCompatActivity {
         }
         showSet.append("-----Sorted Set-----" + "\n");
         showSet.append(Arrays.toString(a));
+        showFinal.setText(Arrays.toString(a));
     }
-
 
 
     @Override
