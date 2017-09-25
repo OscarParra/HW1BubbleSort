@@ -73,33 +73,50 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Hold user input in a single string.
                 String userInput = editSet.getText().toString();
-
-                if(userInput.length() == 0 || userInput.length() < 2 || userInput.contains(comma)){
-                    editSet.setError("Error: Please enter a valid set: Example:1,5,3,6,2,7,4");
+                //If statement will check for any user input that is : length 0, length < 2, length > 8 digits and if the user uses invalid format, like two commas in a row "1,,2"
+                if(userInput.length() == 0 || userInput.length() < 2 || userInput.length() > 15 || userInput.contains(comma)){
+                    //This code block will display the error message and clear some text fields.
+                    editSet.setError("Error: Please enter a valid set with a min length of 2 digits and a max length of 8 digits: Example:1,5,3,6,2,7,4");
+                    showSet.setText("");
+                    showFinal.setText("");
+                    finalSet.setVisibility(View.INVISIBLE);
                 }
                 else{
                     //Save user string into an array
                     String[] inputArray = userInput.split(",");
                     //Array to hold the integer values of the set.
                     int[] intInputArray = new int[inputArray.length];
-
+                    //Counter to check for double digit numbers in the set
+                    int doubleDigit = 0;
                     //For loop to convert the string set to an integer set for sorting.
                     for(int i = 0; i < inputArray.length; i++) {
+                        //As we convert the user input to integer, we check for double digit numbers.
+                        if(Integer.parseInt(inputArray[i]) > 9){
+                            doubleDigit = doubleDigit + 1;
+                        }
                         intInputArray[i] = Integer.parseInt(inputArray[i]);
                     }
-
-                    if(order.isChecked()){
-                        descendingBubbleSort(intInputArray);
+                    //If all numbers are between 0-9, then we can sort the array
+                    if(doubleDigit == 0){
+                        if(order.isChecked()){
+                            descendingBubbleSort(intInputArray);
+                        }
+                        else
+                        {
+                            ascendingBubbleSort(intInputArray);
+                        }
+                        finalSet.setVisibility(View.VISIBLE);
                     }
-                    else
-                    {
-                        ascendingBubbleSort(intInputArray);
+                    else {//Double digit numbers were found and we will display an error message.
+                        editSet.setError("Error: Please enter a valid set using digits between 0-9");
+                        showSet.setText("");
+                        showFinal.setText("");
+                        finalSet.setVisibility(View.INVISIBLE);
                     }
-                    finalSet.setVisibility(View.VISIBLE);
                 }
             }
         }));
-
+        //Function for the clear button
         clear.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -109,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 finalSet.setVisibility(View.INVISIBLE);
             }
         });
-
+        //Function for the exit button
         exit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -160,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
                 c = 0;
             }
         }
+        c = 0;
         showSet.append("-----Sorted Set-----" + "\n");
         showSet.append(Arrays.toString(a));
         showFinal.setText(Arrays.toString(a));
@@ -196,6 +214,7 @@ public class MainActivity extends AppCompatActivity {
                 c = 0;
             }
         }
+        c = 0;
         showSet.append("-----Sorted Set-----" + "\n");
         showSet.append(Arrays.toString(a));
         showFinal.setText(Arrays.toString(a));
