@@ -73,10 +73,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Hold user input in a single string.
                 String userInput = editSet.getText().toString();
-                //If statement will check for any user input that is : length 0, length < 2, length > 8 digits and if the user uses invalid format, like two commas in a row "1,,2"
-                if(userInput.length() == 0 || userInput.length() < 2 || userInput.length() > 15 || userInput.contains(comma)){
+                //If statement will check for any user input that is : length 0 and if the user uses invalid format, like two commas in a row "1,,2"
+                if(userInput.length() == 0 || userInput.contains(comma)){
                     //This code block will display the error message and clear some text fields.
-                    editSet.setError("Error: Please enter a valid set with a min length of 2 digits and a max length of 8 digits: Example:1,5,3,6,2,7,4");
+                    editSet.setError("Error: Please enter a valid set using digits between 0-9, with a min length of 2 digits and a max length of 8 digits: Example:1,5,3,6,2,7,4");
                     showSet.setText("");
                     showFinal.setText("");
                     finalSet.setVisibility(View.INVISIBLE);
@@ -96,6 +96,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                         intInputArray[i] = Integer.parseInt(inputArray[i]);
                     }
+                    //Checks the length of the set, if it's not longer than 2 and shorter than 8 we set off an error we set up for double digit numbers.
+                    if(intInputArray.length < 2 || intInputArray.length > 8){
+                        doubleDigit = 1;
+                    }
                     //If all numbers are between 0-9, then we can sort the array
                     if(doubleDigit == 0){
                         if(order.isChecked()){
@@ -108,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                         finalSet.setVisibility(View.VISIBLE);
                     }
                     else {//Double digit numbers were found and we will display an error message.
-                        editSet.setError("Error: Please enter a valid set using digits between 0-9");
+                        editSet.setError("Error: Please enter a valid set using digits between 0-9, with a min length of 2 digits and a max length of 8 digits: Example:1,5,3,6,2,7,4");
                         showSet.setText("");
                         showFinal.setText("");
                         finalSet.setVisibility(View.INVISIBLE);
